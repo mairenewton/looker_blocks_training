@@ -15,11 +15,6 @@ view: user_order_facts {
     sql_trigger_value: SELECT MAX(created_at) FROM order_items ;;
   }
 
-
-  dimension: month_filter {
-    sql: SELECT purchase_month from ${user_retention.SQL_TABLE_NAME};;
-  }
-
   dimension: user_id {
     primary_key: yes
     hidden: yes
