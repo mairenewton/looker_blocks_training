@@ -33,6 +33,7 @@ explore: events {
 }
 
 explore: inventory_items {
+  hidden: yes
   join: products {
     type: left_outer
     sql_on: ${inventory_items.product_id} = ${products.id} ;;
@@ -72,16 +73,9 @@ explore: order_items {
   }
 }
 
-explore: products {
-  join: distribution_centers {
-    type: left_outer
-    sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
-    relationship: many_to_one
-  }
-}
-
 explore: user_facts {
-  label: "User Facts"
+  label: "Customers"
+  view_label: "Orders"
   view_name: order_items
 
   join: order_facts {
@@ -105,7 +99,7 @@ explore: user_facts {
   }
 
   join: user_order_facts {
-    view_label: "Customer Facts"
+    view_label: "Customers"
     relationship: many_to_one
     sql_on: ${user_order_facts.user_id} = ${order_items.user_id} ;;
   }
@@ -117,6 +111,7 @@ explore: user_facts {
 }
 
 explore: user_retention {
+  hidden: yes
   label: "User Retention"
   view_name: order_items
   join: user_retention {
