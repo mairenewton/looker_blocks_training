@@ -15,6 +15,7 @@ persist_with: looker_blocks_training_default_datagroup
 
 
 explore: events {
+  label: "Event Analysis"
   join: event_session_facts {
     type: left_outer
     sql_on: ${events.session_id} = ${event_session_facts.session_id} ;;
@@ -48,13 +49,28 @@ explore: inventory_items {
 }
 
 explore: order_items {
+  view_label: "Orders"
+  join: order_facts {
+    view_label: "Orders"
+    relationship: many_to_one
+    sql_on: ${order_facts.order_id} = ${order_items.order_id} ;;
+  }
+
   join: users {
+    view_label: "Customers"
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
 
+  join: user_order_facts {
+    view_label: "Customers"
+    relationship: many_to_one
+    sql_on: ${user_order_facts.user_id} = ${order_items.user_id} ;;
+  }
+
   join: inventory_items {
+    fields: []
     type: left_outer
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one
@@ -65,15 +81,10 @@ explore: order_items {
     sql_on: ${inventory_items.product_id} = ${products.id} ;;
     relationship: many_to_one
   }
-
-  join: distribution_centers {
-    type: left_outer
-    sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
-    relationship: many_to_one
-  }
 }
 
 explore: user_facts {
+  hidden: yes
   label: "Customers"
   view_label: "Orders"
   view_name: order_items
@@ -111,26 +122,32 @@ explore: user_facts {
 }
 
 explore: user_retention {
-  hidden: yes
-  label: "User Retention"
+  label: "Customer Retention"
   view_name: order_items
-  join: user_retention {
-    view_label: "Customer Retention"
-    type: left_outer
-    sql_on: ${order_items.user_id} = ${user_retention.user_id} ;;
+  view_label: "Orders"
+
+  join: order_facts {
+    view_label: "Orders"
     relationship: many_to_one
+    sql_on: ${order_facts.order_id} = ${order_items.order_id} ;;
   }
   join: users {
     view_label: "Customers"
     type: left_outer
-    sql_on: ${user_retention.user_id} = ${users.id} ;;
+    sql_on: ${order_items.user_id} = ${users.id} ;;
     relationship: one_to_one
   }
   join: user_order_facts {
-    view_label: "Customer Facts"
+    view_label: "Customers"
     type: left_outer
-    sql_on: ${user_retention.user_id} = ${user_order_facts.user_id} ;;
+    sql_on: ${users.id} = ${user_order_facts.user_id} ;;
     relationship: one_to_one
+  }
+  join: user_retention {
+    view_label: "Customer Retention"
+    type: left_outer
+    sql_on: ${users.id} = ${user_retention.user_id} ;;
+    relationship: one_to_many
   }
   join: inventory_items {
     #Left Join only brings in items that have been sold as order_item
