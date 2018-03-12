@@ -13,9 +13,6 @@ datagroup: looker_blocks_training_default_datagroup {
 
 persist_with: looker_blocks_training_default_datagroup
 
-explore: distribution_centers {}
-
-explore: etl_jobs {}
 
 explore: events {
   join: users {
@@ -24,8 +21,6 @@ explore: events {
     relationship: many_to_one
   }
 }
-
-explore: foo {}
 
 explore: inventory_items {
   join: products {
