@@ -33,6 +33,15 @@ explore: events {
   }
 }
 
+explore: active_users {
+  hidden: yes
+  join: users {
+    type: left_outer
+    sql_on: ${active_users.user_id} = ${users.id} ;;
+    relationship: many_to_one
+  }
+}
+
 explore: inventory_items {
   hidden: yes
   join: products {
