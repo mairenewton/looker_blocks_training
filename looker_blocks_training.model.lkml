@@ -149,5 +149,3 @@ explore: user_retention {
     sql_on: ${products.id} = ${inventory_items.product_id} ;;
   }
 }
-
-explore: users {}
