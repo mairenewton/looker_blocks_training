@@ -144,7 +144,7 @@ explore: user_retention {
     view_label: "Customers"
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
   join: user_order_facts {
     view_label: "Customers"

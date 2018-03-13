@@ -43,7 +43,7 @@ view: user_order_facts {
 
   dimension: days_as_customer_tiered {
     type: tier
-    tiers: [0, 1, 7, 14, 21, 28, 30, 60, 90, 120]
+    tiers: [0, 1, 7, 14, 30, 60, 90, 120, 180, 240, 300, 500, 1000]
     sql: ${days_as_customer} ;;
     style: integer
   }
@@ -89,7 +89,7 @@ view: user_order_facts {
 
   dimension: lifetime_revenue_tier {
     type: tier
-    tiers: [0, 25, 50, 100, 200, 500, 1000]
+    tiers: [0, 25, 50, 75, 100, 150, 200, 300, 500, 750, 1000, 1500]
     sql: ${lifetime_revenue} ;;
     style: integer
   }
